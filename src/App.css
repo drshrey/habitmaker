@@ -1,0 +1,75 @@
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 15px;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: lightblue;
+  height: 150px;
+  padding: 20px;
+  color: black;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: 15px;
+  width: 450px;
+  text-align: center;
+  padding-top: 25px;
+  margin: auto;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.habits-table {
+  text-align: center;
+  padding-top: 25px;
+  margin: auto;
+}
+
+.habitform {
+  padding: 25px;
+}
+
+.habitinput {
+  margin: 20px;
+  font-size: 16px;
+  width: 400px;
+  padding: 5px;
+  border: 1px solid black;
+}
+
+.habitdurationinput {
+  font-size: 16px;
+  width: 100px;
+  padding: 5px;
+  border: 1px solid black;
+}
+
+.habitsubmit {
+  font-size: 20px;
+  border: 1px solid black;
+  background-color: lightblue;
+  color: black;
+  padding: 15px;
+  cursor: pointer;
+}
