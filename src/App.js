@@ -25,6 +25,7 @@ class App extends Component {
     var self = this
     habits.map(function(habit, idx){
       // var changedHabit = self.changeHabitStateIfAny(habit)
+      console.log(habit)
       if(habit.enabled){
         var changedHabit = self.changeHabitStateIfAny(habit)        
         habits[idx] = changedHabit
@@ -52,11 +53,11 @@ class App extends Component {
       name: this.state.habitName,
       duration: this.state.habitDuration,
       created: today.toString(),
-      streak: 0,
+      streak: 1,
       enabled: true,
       failures: 0,
       finish_date: finish_date.toString(),
-      last_checked: new Date(2).toString(),
+      last_checked:today.toString(),
     }
     var habits = this.state.habits;
     habits.push(habit);
@@ -70,12 +71,15 @@ class App extends Component {
   }
 
   incompleteHabitExists(){
+    var self = this;
+    var res = false;
     this.state.habits.map(function(habit){
-      if(this.getStatus(habit) !== 'finished'){
-        return true
+      console.log(self.getStatus(habit))
+      if(self.getStatus(habit) !== 'finished'){
+        res = true;
       }
     })
-    return false
+    return res;
   }
 
   deleteHabit(idx){
@@ -96,11 +100,11 @@ class App extends Component {
       name: habits[idx].name,
       duration: habits[idx].duration,
       created: today.toString(),
-      streak: 0,
+      streak: 1,
       enabled: true,
       failures: 0,
       finish_date: finish_date.toString(),
-      last_checked: new Date(1).toString(),
+      last_checked: today.toString(),
     }
     
     habits[idx] = habit
@@ -128,9 +132,9 @@ class App extends Component {
   habitNotCheckedInTime(habit){
     var today = new Date();
     console.log(habit.last_checked)
-    if(today.getFullYear() - new Date(habit.last_checked).getFullYear() < 0
-    || today.getDate() - new Date(habit.last_checked).getDate() < 0
-    || today.getMonth() - new Date(habit.last_checked).getMonth() < 0){
+    if(new Date(habit.last_checked).getFullYear() - today.getFullYear()< 0
+    || new Date(habit.last_checked).getDate() - today.getDate() < 0
+    || new Date(habit.last_checked).getMonth() - today.getMonth() < 0){
       return true;
     }
     return false;
@@ -142,9 +146,9 @@ class App extends Component {
     if(!habit.last_checked){
       return "failed";
     }    
-    if(new Date(habit.last_checked).getFullYear() === 1969 && new Date(habit.last_checked).getDay() === 3){
-      return 'in progress';
-    }
+    // if(new Date(habit.last_checked).getFullYear() === 1969 && new Date(habit.last_checked).getDay() === 3){
+    //   return 'in progress';
+    // }
     if(today === habit.finish_date && new Date(habit.last_checked) === today){
       return "finished";
     } 
@@ -200,7 +204,7 @@ class App extends Component {
                 />
               )
               console.log(self.getStatus(habit))
-              if(self.getStatus(habit) === "failed"){
+              if(self.getStatus(habit) === "failed" || habit.enabled === false){
                 checkedView = (<button onClick={() => self.restartHabit(idx)}>restart</button>)
               }      
               return (
@@ -219,31 +223,39 @@ class App extends Component {
             })}
           </tbody>
         </table>
-        <form className="habitform" onSubmit={this.addHabit.bind(this)}>
-          <input
-            type="text"
-            placeholder="Enter a habit"
-            name="habit"
-            value={this.state.habitName}
-            onChange={(e) => this.setState({ habitName: e.target.value })}
-            className="habitinput"
-          />
-          <input
-            type="number"
-            min="0"
-            max="21"
-            placeholder="Duration"
-            name="habit"
-            value={this.state.habitDuration}
-            onChange={(e) => this.setState({ habitDuration: e.target.value })}
-            className="habitdurationinput"
-          /> days<br/>
-          <input 
-            type="submit" 
-            value="Add Habit" 
-            className="habitsubmit"
-          />
-        </form>
+        {!this.incompleteHabitExists() &&
+          <form className="habitform" onSubmit={this.addHabit.bind(this)}>
+            <input
+              type="text"
+              placeholder="Enter a habit"
+              name="habit"
+              value={this.state.habitName}
+              onChange={(e) => this.setState({ habitName: e.target.value })}
+              className="habitinput"
+            />
+            <input
+              type="number"
+              min="0"
+              max="21"
+              placeholder="Duration"
+              name="habit"
+              value={this.state.habitDuration}
+              onChange={(e) => this.setState({ habitDuration: e.target.value })}
+              className="habitdurationinput"
+            /> days<br/>
+            <input 
+              type="submit" 
+              value="Add Habit" 
+              className="habitsubmit"
+              disabled={this.incompleteHabitExists()}
+            />
+          </form>
+        }
+        {this.incompleteHabitExists() && 
+          <div className="placeholder"> 
+            form inputs will reappear once you've completed the habit.
+          </div>
+        }
       </div>
     );
   }

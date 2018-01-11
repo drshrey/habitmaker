@@ -73,3 +73,8 @@ th, td {
   padding: 15px;
   cursor: pointer;
 }
+
+.placeholder {
+  font-size: 20px;
+  padding: 25px;
+}
