@@ -131,10 +131,8 @@ class App extends Component {
 
   habitNotCheckedInTime(habit){
     var today = new Date();
-    console.log(habit.last_checked)
-    if(new Date(habit.last_checked).getFullYear() - today.getFullYear()< 0
-    || new Date(habit.last_checked).getDate() - today.getDate() < 0
-    || new Date(habit.last_checked).getMonth() - today.getMonth() < 0){
+    console.log(Math.abs(Date.now() - new Date(habit.last_checked).getTime()) / 36e5)
+    if(Math.abs(Date.now() - new Date(habit.last_checked).getTime()) / 36e5 > 24){
       return true;
     }
     return false;
