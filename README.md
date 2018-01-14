@@ -8,4 +8,11 @@
 3. If you complete the habit (or delete the "in progress" habit), you can create a new one.
 
 
+## Installing
+
+- `npm install` or `yarn install`
+- `npm start` or `yarn start` (depending on your previous command)
+
+
+
 
