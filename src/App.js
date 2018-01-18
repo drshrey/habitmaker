@@ -27,10 +27,10 @@ class App extends Component {
       // var changedHabit = self.changeHabitStateIfAny(habit)
       console.log(habit)
       if(habit.enabled){
-        var changedHabit = self.changeHabitStateIfAny(habit)        
+        var changedHabit = self.changeHabitStateIfAny(habit)
         habits[idx] = changedHabit
       }
-    })    
+    })
     this.setState({ habits: habits })
   }
 
@@ -84,7 +84,7 @@ class App extends Component {
 
   deleteHabit(idx){
     var habits = this.state.habits
-    habits.splice(idx, idx + 1) 
+    habits.splice(idx, idx + 1)
     this.setState({
       habits: habits
     })
@@ -106,13 +106,13 @@ class App extends Component {
       finish_date: finish_date.toString(),
       last_checked: today.toString(),
     }
-    
+
     habits[idx] = habit
 
     this.setState({
       habits: habits
     })
-    localStorage.setItem('habits', JSON.stringify(habits))    
+    localStorage.setItem('habits', JSON.stringify(habits))
   }
 
   checkboxHabit(habitIndex){
@@ -143,13 +143,13 @@ class App extends Component {
     // check if finished
     if(!habit.last_checked){
       return "failed";
-    }    
+    }
     // if(new Date(habit.last_checked).getFullYear() === 1969 && new Date(habit.last_checked).getDay() === 3){
     //   return 'in progress';
     // }
     if(today === habit.finish_date && new Date(habit.last_checked) === today){
       return "finished";
-    } 
+    }
     if(this.habitNotCheckedInTime(habit)){
       return 'failed';
     }
@@ -165,10 +165,10 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">dev.</h1>
+          <h1 className="App-title">prod life.</h1>
         </header>
         <p className="App-intro">
-          You can add a habit, one at a time. Once you've achieved the habit in the preset duration, 
+          You can add a habit, one at a time. Once you've achieved the habit in the preset duration,
           then you may add another one. If you have completed a habit for the day, stamp it so you do not lose its streak.
           Otherwise, you will have to start over.
         </p>
@@ -191,11 +191,11 @@ class App extends Component {
           <tbody>
             {this.state.habits.map(function(habit, idx){
               var checkedView = (
-                <input type="checkbox" 
+                <input type="checkbox"
                   onChange={() => self.checkboxHabit(idx)}
-                  checked={new Date(habit.last_checked).getFullYear() !== 1969 && 
+                  checked={new Date(habit.last_checked).getFullYear() !== 1969 &&
                     new Date(habit.last_checked).getDay() === new Date().getDay()}
-                  disabled={new Date(habit.last_checked).getFullYear() !== 1969 
+                  disabled={new Date(habit.last_checked).getFullYear() !== 1969
                     && new Date(habit.last_checked).getDay() === new Date().getDay()
                     && new Date(habit.last_checked).getFullYear() === new Date().getFullYear()
                     && new Date(habit.last_checked).getMonth() === new Date().getMonth()}
@@ -204,7 +204,7 @@ class App extends Component {
               console.log(self.getStatus(habit))
               if(self.getStatus(habit) === "failed" || habit.enabled === false){
                 checkedView = (<button onClick={() => self.restartHabit(idx)}>restart</button>)
-              }      
+              }
               return (
                 <tr>
                   <td>{habit.name}</td>
@@ -241,16 +241,16 @@ class App extends Component {
               onChange={(e) => this.setState({ habitDuration: e.target.value })}
               className="habitdurationinput"
             /> days<br/>
-            <input 
-              type="submit" 
-              value="Add Habit" 
+            <input
+              type="submit"
+              value="Add Habit"
               className="habitsubmit"
               disabled={this.incompleteHabitExists()}
             />
           </form>
         }
-        {this.incompleteHabitExists() && 
-          <div className="placeholder"> 
+        {this.incompleteHabitExists() &&
+          <div className="placeholder">
             form inputs will reappear once you've completed the habit.
           </div>
         }
