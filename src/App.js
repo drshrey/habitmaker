@@ -159,13 +159,13 @@ class App extends Component {
   }
 
   render() {
-    console.log('render')
     var self = this;
+    var injectedEnvVar = process.env.HABITMAKER
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">prod life.</h1>
+          <h1 className="App-title">prod life. {injectedEnvVar} </h1>
         </header>
         <p className="App-intro">
           You can add a habit, one at a time. Once you've achieved the habit in the preset duration,
